@@ -23,7 +23,7 @@
   "author": "Ali Gamal <aga@luftborn.com>",
   "type": "commonjs",
   "bin": {
-    "hackmd-skill": "./bin/install.js"
+    "hackmd-skill": "bin/install.js"
   },
   "files": [
     "bin/",
