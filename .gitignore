@@ -1,0 +1,12 @@
+node_modules/
+*.log
+.DS_Store
+.env
+.env.local
+*.tgz
+.npmrc
+.idea/
+.vscode/
+coverage/
+dist/
+build/

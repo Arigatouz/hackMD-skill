@@ -1,0 +1,41 @@
+{
+  "name": "@arigatouz/hackmd-skill",
+  "version": "0.1.0",
+  "description": "A Claude Code skill for managing HackMD notes, folders, images, and team workspaces via the v1 REST API and the hackmd-mcp MCP server.",
+  "keywords": [
+    "claude",
+    "claude-code",
+    "skill",
+    "hackmd",
+    "mcp",
+    "notes",
+    "markdown"
+  ],
+  "homepage": "https://github.com/Arigatouz/hackMD-plugin#readme",
+  "bugs": {
+    "url": "https://github.com/Arigatouz/hackMD-plugin/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Arigatouz/hackMD-plugin.git"
+  },
+  "license": "MIT",
+  "author": "Ali Gamal <aga@luftborn.com>",
+  "type": "commonjs",
+  "bin": {
+    "hackmd-skill": "./bin/install.js"
+  },
+  "files": [
+    "bin/",
+    "skill/",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "install:local": "node ./bin/install.js install",
+    "uninstall:local": "node ./bin/install.js uninstall"
+  }
+}
