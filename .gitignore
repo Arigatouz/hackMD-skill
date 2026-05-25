@@ -7,6 +7,8 @@ node_modules/
 .npmrc
 .idea/
 .vscode/
+CLAUDE.md
+.antigravitycli
 coverage/
 dist/
 build/
