@@ -1,6 +1,6 @@
 {
   "name": "@arigatouz/hackmd-skill",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A Claude Code skill for managing HackMD notes, folders, images, and team workspaces via the v1 REST API and the hackmd-mcp MCP server.",
   "keywords": [
     "claude",
