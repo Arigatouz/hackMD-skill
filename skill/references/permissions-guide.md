@@ -40,7 +40,7 @@ HackMD notes have three independent permission controls:
 ## Named Presets
 
 ### 1. Private Draft
-Personal scratchpad — only the owner can read or write.
+Personal scratchpad. Only the owner can read or write.
 
 ```json
 {
@@ -87,7 +87,7 @@ but you want editing restricted to known users.
 ---
 
 ### 4. Public Read-Only
-Published article — anyone can read, only the owner can edit.
+Published article. Anyone can read, only the owner can edit.
 
 ```json
 {
@@ -103,7 +103,7 @@ public retrospective summaries.
 ---
 
 ### 5. Public Collaborative Pad
-Fully open — anyone can read, write, and comment without logging in.
+Fully open. Anyone can read, write, and comment without logging in.
 
 ```json
 {
@@ -114,7 +114,7 @@ Fully open — anyone can read, write, and comment without logging in.
 ```
 
 **Use when:** public hackathon pads, community event notes, open source project
-discussion boards. Use with caution — anonymous edits are possible.
+discussion boards. Use with caution; anonymous edits are possible.
 
 ---
 

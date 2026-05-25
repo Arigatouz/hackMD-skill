@@ -100,19 +100,19 @@ robots: noindex
 
 ```markdown
 :::info
-Informational callout — blue
+Informational callout (blue)
 :::
 
 :::success
-Success callout — green
+Success callout (green)
 :::
 
 :::warning
-Warning callout — yellow
+Warning callout (yellow)
 :::
 
 :::danger
-Danger/error callout — red
+Danger/error callout (red)
 :::
 
 :::spoiler Click to reveal

@@ -71,11 +71,11 @@ curl -s -H "Authorization: Bearer $HACKMD_API_TOKEN" \
 
 Response includes:
 
-- `content` — raw markdown string (omitted from list responses)
+- `content`: raw markdown string (omitted from list responses)
 - `tags`, `description`, `permalink`, `publishType`, `publishedAt`,
   `titleUpdatedAt`, `tagsUpdatedAt`, `lastChangedAt`, `lastChangeUser`
 - `userPath`, `teamPath`, `readPermission`, `writePermission`
-- **`folderPaths`** — array describing the folder ancestry of this note,
+- **`folderPaths`**: array describing the folder ancestry of this note,
   e.g. `[{"id":"...","name":"google/io","icon":"🔵","parentId":null,...},
   {"id":"...","name":"google/io-2026","icon":"🟢","parentId":"...","...":"..."}]`.
   This is the **only** read-side surface for folder membership; there is **no
@@ -111,7 +111,7 @@ Request body fields:
 | `writePermission` | string | no | `owner`, `signed_in`, `guest` |
 | `commentPermission` | string | no | `disabled`, `forbidden`, `owners`, `signed_in_users`, `everyone` |
 | `suggestEditPermission` | string | no | suggest-edit permission role |
-| `parentFolderId` | string | no | folder UUID (see `/folders`) — places the note inside that folder |
+| `parentFolderId` | string | no | folder UUID (see `/folders`); places the note inside that folder |
 | `permalink` | string | no | custom URL slug; `409` if already taken |
 | `tags` | string[] | no | tag list |
 | `description` | string | no | note description |
@@ -237,6 +237,9 @@ Response:
 
 ### GET /teams/{teamPath}/notes
 List notes in a team workspace.
+
+### GET /teams/{teamPath}/notes/{noteId}
+Fetch a single team note including full content.
 
 ```bash
 curl -s -H "Authorization: Bearer $HACKMD_API_TOKEN" \
@@ -370,13 +373,13 @@ curl -s -X PUT \
 
 Team folders mirror personal folders, scoped under `/teams/{teamPath}`:
 
-- `GET /teams/{teamPath}/folders` — list
-- `GET /teams/{teamPath}/folders/{folderId}` — fetch one
-- `POST /teams/{teamPath}/folders` — body identical to `POST /folders`
-- `PATCH /teams/{teamPath}/folders/{folderId}` — fields identical to personal PATCH
-- `DELETE /teams/{teamPath}/folders/{folderId}` — `204 No Content`
+- `GET /teams/{teamPath}/folders`: list
+- `GET /teams/{teamPath}/folders/{folderId}`: fetch one
+- `POST /teams/{teamPath}/folders`: body identical to `POST /folders`
+- `PATCH /teams/{teamPath}/folders/{folderId}`: fields identical to personal PATCH
+- `DELETE /teams/{teamPath}/folders/{folderId}`: `204 No Content`
 - `GET /teams/{teamPath}/folders/folder-order` / `PUT /teams/{teamPath}/folders/folder-order`
-  — same body shape as personal order endpoints
+  same body shape as personal order endpoints
 
 ---
 
@@ -386,12 +389,12 @@ Team folders mirror personal folders, scoped under `/teams/{teamPath}`:
 |---|---|
 | 200 | Success with body |
 | 201 | Created |
-| 202 | Accepted — async processing (returned by `PATCH /notes/{id}` when changing `parentFolderId`). Verify with a follow-up `GET /notes/{id}` |
+| 202 | Accepted: async processing (returned by `PATCH /notes/{id}` when changing `parentFolderId`). Verify with a follow-up `GET /notes/{id}` |
 | 204 | Success, no body (delete operations) |
-| 400 | Bad request — malformed JSON or invalid field value |
-| 401 | Unauthorized — missing or invalid token |
-| 403 | Forbidden — valid token but insufficient permissions |
-| 404 | Not found — note ID or team path does not exist |
-| 409 | Conflict — e.g. duplicate permalink |
-| 429 | Rate limited — back off and retry |
+| 400 | Bad request: malformed JSON or invalid field value |
+| 401 | Unauthorized: missing or invalid token |
+| 403 | Forbidden: valid token but insufficient permissions |
+| 404 | Not found: note ID or team path does not exist |
+| 409 | Conflict: e.g. duplicate permalink |
+| 429 | Rate limited: back off and retry |
 | 500 | Internal server error |

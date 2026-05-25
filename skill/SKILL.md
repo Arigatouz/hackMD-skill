@@ -80,7 +80,7 @@ Ensure `HACKMD_API_TOKEN` is exported before sourcing.
 | `mcp__hackmd__update_team_note` | Update a team note |
 | `mcp__hackmd__delete_team_note` | Delete a team note |
 
-> **Coverage gaps — use curl fallback for these:** Verified against
+> **Coverage gaps (use curl fallback for these):** Verified against
 > `hackmd-mcp@1.5.7` (current latest on npm). The MCP server does **not**
 > expose:
 >
@@ -105,12 +105,12 @@ MCP tools accept only the subset noted as **"MCP"**; everything else is
 
 | Field | Type | Available via | Notes |
 |---|---|---|---|
-| `title` | string | MCP `create_note`; **curl-only** for updates | Use `hackmd_update_note` to rename — MCP `update_note` ignores title |
+| `title` | string | MCP `create_note`; **curl-only** for updates | Use `hackmd_update_note` to rename; MCP `update_note` ignores title |
 | `content` | string | MCP + curl | Markdown body |
 | `readPermission` / `writePermission` | enum | MCP + curl | `owner` \| `signed_in` \| `guest` |
 | `commentPermission` | enum | MCP `create_note` + curl | `disabled` \| `forbidden` \| `owners` \| `signed_in_users` \| `everyone` |
 | `permalink` | string | MCP + curl | Custom URL slug; 409 if taken |
-| `parentFolderId` | string \| null | **curl-only, PATCH only** | Folder UUID from `/folders`. **POST silently drops this field** — use `hackmd_create_note_in_folder` (POST + PATCH) instead. On read, exposed as `folderPaths` (ancestor array), not as a scalar |
+| `parentFolderId` | string \| null | **curl-only, PATCH only** | Folder UUID from `/folders`. **POST silently drops this field.** Use `hackmd_create_note_in_folder` (POST + PATCH) instead. On read, exposed as `folderPaths` (ancestor array), not as a scalar |
 | `tags` | string[] | **curl-only** | Tag list on the note |
 | `description` | string | **curl-only** | Note description |
 | `suggestEditPermission` | enum | **curl-only** | Who can suggest edits |
@@ -163,7 +163,7 @@ MCP tools accept only the subset noted as **"MCP"**; everything else is
 1. Identify the note by ID (fetch first if the user gave a title or URL).
 2. Collect changes. Route by field:
    - `content`, `readPermission`, `writePermission`, `permalink` → `mcp__hackmd__update_note` with `noteId` and only the changed fields.
-   - `title`, `tags`, `description`, `parentFolderId`, `suggestEditPermission`, or `noteFeatures` → curl helper `hackmd_update_note <noteId> '<json_patch>'` (MCP `update_note` ignores these fields — see the field table above).
+   - `title`, `tags`, `description`, `parentFolderId`, `suggestEditPermission`, or `noteFeatures` → curl helper `hackmd_update_note <noteId> '<json_patch>'` (MCP `update_note` ignores these fields; see the field table above).
 3. Confirm success and show the updated `lastChangedAt`.
 
 ### 5. Delete a personal note
@@ -221,7 +221,7 @@ MCP tools accept only the subset noted as **"MCP"**; everything else is
 
 ### 12. List folders (personal or team)
 
-The folder API is not yet exposed via MCP — use the curl fallback.
+The folder API is not yet exposed via MCP; use the curl fallback.
 
 ```bash
 source ~/.claude/skills/hackmd/scripts/hackmd-curl.sh
@@ -269,7 +269,7 @@ hackmd_delete_team_folder <teamPath> <folderId>
   client-side and refuses the move if `newParentId` is a descendant of
   `folderId` (or equals it).
 - **Before deletion**, the `hackmd_delete_folder*` helpers print the
-  **subfolder** count (skipping notes for speed — see next bullet). The API's
+  **subfolder** count (skipping notes for speed; see next bullet). The API's
   behavior on non-empty folder delete is undocumented in the spec; children
   may be orphaned to root. Surface this count to the user, then require
   explicit `YES` confirmation (see workflow 5/11 pattern).
@@ -291,18 +291,18 @@ hackmd_delete_team_folder <teamPath> <folderId>
 
 3. To move back to "no folder" / root: `'{"parentFolderId":null}'`.
 
-4. Verify the move with `hackmd_get_note_folder_path <noteId>` — the API
+4. Verify the move with `hackmd_get_note_folder_path <noteId>`. The API
    `PATCH` returns **`202 Accepted`** (the move is async), so a quick read-back
    confirms it landed.
 
 > **MCP caveat (verified against hackmd-mcp@1.5.7):** `mcp__hackmd__update_note`
-> only accepts `content`, `readPermission`, `writePermission`, `permalink` —
+> only accepts `content`, `readPermission`, `writePermission`, `permalink`;
 > it silently drops `parentFolderId`. Always use the `hackmd_update_note`
 > curl helper (which calls `PATCH /notes/{id}` directly) for folder moves.
 
 > **Read-side field name:** When reading a note back (`GET /notes/{id}`),
 > folder membership is exposed as the array **`folderPaths`** (full ancestor
-> chain of `{id,name,icon,parentId,…}` objects) — NOT as a scalar
+> chain of `{id,name,icon,parentId,…}` objects), not a scalar
 > `parentFolderId`. The list endpoint `GET /notes` omits folder info
 > entirely. Use `hackmd_get_note_folder_path <noteId>` for a human-readable
 > path.
@@ -312,7 +312,7 @@ hackmd_delete_team_folder <teamPath> <folderId>
 The order is a per-user map of `parentId → orderedChildIds[]`. Use the literal
 string `root` as the key for top-level folders.
 
-**Prefer the safe-merge helper** — it fetches the current order, replaces only
+**Prefer the safe-merge helper.** It fetches the current order, replaces only
 the entry for the target parent, and writes the merged map back in one call:
 
 ```bash
@@ -320,7 +320,7 @@ hackmd_reorder_folder_children <parentIdOrRoot> <childId1> [childId2 ...]
 hackmd_reorder_team_folder_children <teamPath> <parentIdOrRoot> <childId1> [...]
 ```
 
-Example — reorder top-level folders for the personal workspace:
+Example: reorder top-level folders for the personal workspace:
 ```bash
 hackmd_reorder_folder_children root folder-uuid-b folder-uuid-a
 ```
@@ -351,12 +351,12 @@ After upload, embed the returned link in markdown:
 ![alt text](https://hackmd.io/_uploads/abcdef.png)
 ```
 
-The MCP server does not expose this — always use the curl helper.
+The MCP server does not expose this; always use the curl helper.
 
 > **Size limits:** HackMD's exact upload limit is not in the public OpenAPI
 > spec, but uploads ≥ ~5 MB commonly return `413 Payload Too Large`. The
 > helper warns on files over 5 MB before sending. On 413, downsize before
-> retrying — for example:
+> retrying. For example:
 >
 > ```bash
 > sips -Z 1600 ./diagram.png --out ./diagram-small.png   # macOS
@@ -398,7 +398,7 @@ This is an info block.
 
 ## Supplementary References
 
-Load on demand — do not read these unless the trigger applies.
+Load on demand; do not read these unless the trigger applies.
 
 | File | Load when… |
 |---|---|
