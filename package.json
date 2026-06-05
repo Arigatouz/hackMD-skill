@@ -11,13 +11,13 @@
     "notes",
     "markdown"
   ],
-  "homepage": "https://github.com/Arigatouz/hackMD-plugin#readme",
+  "homepage": "https://github.com/Arigatouz/hackMD-skill#readme",
   "bugs": {
-    "url": "https://github.com/Arigatouz/hackMD-plugin/issues"
+    "url": "https://github.com/Arigatouz/hackMD-skill/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Arigatouz/hackMD-plugin.git"
+    "url": "git+https://github.com/Arigatouz/hackMD-skill.git"
   },
   "license": "MIT",
   "author": "Ali Gamal <aga@luftborn.com>",
